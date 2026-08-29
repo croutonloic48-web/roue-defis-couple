@@ -143,28 +143,22 @@ function spinTo(index){
 document.getElementById('spinBtn').onclick=()=>{
   if(spinning)return;
 
+  const maquillageIndex = items.findIndex(
+    item => item.toLowerCase().includes("me maquiller")
+  );
+
   let index;
 
-  if(firstSpin){
-    // Premier lancer : 70 % "Me maquiller", 30 % autre défi
-    firstSpin=false;
-
-    const maquillageIndex = items.findIndex(
-      item => item.toLowerCase().includes("me maquiller")
-    );
-
-    if(maquillageIndex !== -1 && Math.random() < 0.7){
-      index = maquillageIndex;
-    } else {
-      const autres = items
-        .map((_, i) => i)
-        .filter(i => i !== maquillageIndex);
-
-      index = autres[Math.floor(Math.random() * autres.length)];
-    }
+  // 70% Me maquiller, 30% n'importe quelle autre case
+  if(maquillageIndex !== -1 && Math.random() < 0.7) {
+    index = maquillageIndex;
   } else {
-    // Tous les autres lancers : complètement aléatoires
-    index = Math.floor(Math.random()*items.length);
+    index = Math.floor(Math.random() * items.length);
+
+    // Si on tombe sur Me maquiller dans les 30%, on choisit une autre case
+    if(index === maquillageIndex) {
+      index = (index + 1) % items.length;
+    }
   }
 
   spinTo(index);
