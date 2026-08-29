@@ -149,11 +149,11 @@ document.getElementById('spinBtn').onclick=()=>{
 
  let index;
 
- if(maquillageIndex !== -1 && Math.random() < 0.5){
-   // 75 % de chances : "Me maquiller"
+ if(maquillageIndex !== -1 && Math.random() < 0.8){
+   // 80 % de chances : "Me maquiller"
    index = maquillageIndex;
  } else {
-   // 25 % : un autre défi au hasard
+   // 20 % : un autre défi au hasard
    const autres = items
      .map((_, i) => i)
      .filter(i => i !== maquillageIndex);
