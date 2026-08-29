@@ -144,16 +144,18 @@ document.getElementById('spinBtn').onclick=()=>{
   let index;
 
   if(premierLancer){
-    // Premier lancer : 50 % de chances de "me maquiller"
     premierLancer=false;
 
     const maquillageIndex=items.findIndex(
       item=>item.toLowerCase().includes("me maquiller")
     );
 
-    if(maquillageIndex!==-1 && Math.random()<0.5){
+    // 50 % Me maquiller
+    if(Math.random()<0.5){
       index=maquillageIndex;
-    }else{
+    }
+    // 50 % une autre case
+    else{
       const autres=items
         .map((_,i)=>i)
         .filter(i=>i!==maquillageIndex);
@@ -162,7 +164,7 @@ document.getElementById('spinBtn').onclick=()=>{
     }
 
   }else{
-    // Lancers suivants : complètement aléatoires
+    // Après le premier : 100 % aléatoire
     index=Math.floor(Math.random()*items.length);
   }
 
