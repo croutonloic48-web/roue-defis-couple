@@ -142,9 +142,25 @@ function spinTo(index){
 
 document.getElementById('spinBtn').onclick=()=>{
  if(spinning)return;
+
+ const maquillageIndex = items.findIndex(
+   item => item.trim().toLowerCase() === "me maquiller"
+ );
+
  let index;
- if(firstSpin){ index=0; firstSpin=false; status.textContent='Premier lancer terminé. Les prochains sont aléatoires.'; }
- else index=Math.floor(Math.random()*items.length);
+
+ if(maquillageIndex !== -1 && Math.random() < 0.5){
+   // 50 % de chances : "Me maquiller"
+   index = maquillageIndex;
+ } else {
+   // 50 % : un autre défi au hasard
+   const autres = items
+     .map((_, i) => i)
+     .filter(i => i !== maquillageIndex);
+
+   index = autres[Math.floor(Math.random() * autres.length)];
+ }
+
  spinTo(index);
 };
 document.getElementById('resetBtn').onclick=()=>{
