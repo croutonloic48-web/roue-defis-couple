@@ -77,7 +77,8 @@ const defaultItems=[
  "rien 😅","se que tu veux 😂","embrasser 💋","une fessée 🍑",
  "au choix ❤️","je danse 💃","je fais 67 avec...","me maquiller 💄"
 ];
-let items=[...defaultItems], angle=0, spinning=false, firstSpin=true;
+let items=[...defaultItems], angle=0, spinning=false;
+let premierLancer=true;
 const canvas=document.getElementById('wheel'), ctx=canvas.getContext('2d');
 const inputs=document.getElementById('inputs'), status=document.getElementById('status');
 
@@ -142,28 +143,27 @@ document.getElementById('spinBtn').onclick=()=>{
 
   let index;
 
-  if(firstSpin){
-    // Premier lancer : 50 % de chances de "Me maquiller"
-    firstSpin=false;
+  if(premierLancer){
+    // Premier lancer : 50 % de chances de "me maquiller"
+    premierLancer=false;
 
-    const maquillageIndex = items.findIndex(
-      item => item.toLowerCase().includes("me maquiller")
+    const maquillageIndex=items.findIndex(
+      item=>item.toLowerCase().includes("me maquiller")
     );
 
-    if(maquillageIndex !== -1 && Math.random() < 0.5){
-      index = maquillageIndex;
-    } else {
-      // Les 50 % restants : une autre case au hasard
-      const autres = items
-        .map((_, i) => i)
-        .filter(i => i !== maquillageIndex);
+    if(maquillageIndex!==-1 && Math.random()<0.5){
+      index=maquillageIndex;
+    }else{
+      const autres=items
+        .map((_,i)=>i)
+        .filter(i=>i!==maquillageIndex);
 
-      index = autres[Math.floor(Math.random() * autres.length)];
+      index=autres[Math.floor(Math.random()*autres.length)];
     }
 
-  } else {
-    // Tous les lancers suivants : 100 % aléatoires
-    index = Math.floor(Math.random() * items.length);
+  }else{
+    // Lancers suivants : complètement aléatoires
+    index=Math.floor(Math.random()*items.length);
   }
 
   spinTo(index);
