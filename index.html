@@ -60,11 +60,8 @@ canvas{width:100%;height:100%;display:block;filter:drop-shadow(0 18px 35px #000b
 <div class="app">
   <div class="panel">
     <h1>🎡 Roue des défis</h1>
-    <div class="small">Modifie les noms quand tu veux. Le premier lancer tombe sur la case 1, puis les lancers suivants sont aléatoires.</div>
     <div id="inputs"></div>
     <button id="spinBtn">LANCER LA ROUE</button>
-    <button class="secondary" id="resetBtn">Réinitialiser le premier lancer</button>
-    <div class="status" id="status">Premier lancer configuré → case 1</div>
   </div>
   <div class="stage">
     <div class="wheel-wrap">
@@ -143,30 +140,33 @@ function spinTo(index){
 document.getElementById('spinBtn').onclick=()=>{
   if(spinning)return;
 
-  const maquillageIndex = items.findIndex(
-    item => item.toLowerCase().includes("me maquiller")
-  );
-
   let index;
 
-  // 70% Me maquiller, 30% n'importe quelle autre case
-  if(maquillageIndex !== -1 && Math.random() < 0.7) {
-    index = maquillageIndex;
-  } else {
-    index = Math.floor(Math.random() * items.length);
+  if(firstSpin){
+    // Premier lancer : 50 % de chances de "Me maquiller"
+    firstSpin=false;
 
-    // Si on tombe sur Me maquiller dans les 30%, on choisit une autre case
-    if(index === maquillageIndex) {
-      index = (index + 1) % items.length;
+    const maquillageIndex = items.findIndex(
+      item => item.toLowerCase().includes("me maquiller")
+    );
+
+    if(maquillageIndex !== -1 && Math.random() < 0.5){
+      index = maquillageIndex;
+    } else {
+      // Les 50 % restants : une autre case au hasard
+      const autres = items
+        .map((_, i) => i)
+        .filter(i => i !== maquillageIndex);
+
+      index = autres[Math.floor(Math.random() * autres.length)];
     }
+
+  } else {
+    // Tous les lancers suivants : 100 % aléatoires
+    index = Math.floor(Math.random() * items.length);
   }
 
   spinTo(index);
-};
-document.getElementById('resetBtn').onclick=()=>{
- if(spinning)return;
- firstSpin=true;
- status.textContent='Premier lancer configuré → case 1';
 };
 </script>
 </body>
