@@ -123,7 +123,7 @@ function spinTo(index){
  spinning=true;
  const n=items.length, step=Math.PI*2/n;
  // Pointer is at the right. Choose the target sector center at angle 0 relative to pointer.
- const targetCenter=-(index*step+step/2);
+ const targetCenter=Math.PI/2-(index*step+step/2);
  const current=angle%(Math.PI*2);
  let delta=targetCenter-current;
  while(delta<0)delta+=Math.PI*2;
